@@ -1,0 +1,55 @@
+plugins {
+	id 'org.springframework.boot' version '2.6.6'
+	id 'io.spring.dependency-management' version '1.0.11.RELEASE'
+	id 'java'
+}
+
+group = 'com.example'
+version = '0.0.1-SNAPSHOT'
+sourceCompatibility = '11'
+
+repositories {
+	mavenCentral()
+}
+
+ext {
+	set('flywayVersion', '7.15.0')
+	set('mockitoVersion', '4.1.0')
+	set('fasterxmlJackson', '2.13.2')
+	set('fasterxmlJacksonDatabind', '2.13.2.2')
+	set('testcontainersVersion', '1.16.2')
+}
+
+dependencies {
+	implementation 'org.springframework.boot:spring-boot-starter-web'
+	testImplementation 'org.springframework.boot:spring-boot-starter-test'
+	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+	annotationProcessor 'org.projectlombok:lombok'
+
+	implementation "org.flywaydb:flyway-core:${flywayVersion}"
+	runtimeOnly 'mysql:mysql-connector-java'
+
+	implementation "org.springframework.boot:spring-boot-starter-security"
+	implementation "io.jsonwebtoken:jjwt:0.9.1"
+
+	implementation "com.fasterxml.jackson.core:jackson-databind:${fasterxmlJacksonDatabind}"
+	implementation "com.fasterxml.jackson.core:jackson-core:${fasterxmlJackson}"
+	implementation "com.fasterxml.jackson.core:jackson-annotations:${fasterxmlJackson}"
+
+	implementation('org.springframework.boot:spring-boot-starter-validation')
+
+	testImplementation "org.testcontainers:mysql:${testcontainersVersion}"
+	testImplementation "org.testcontainers:junit-jupiter:${testcontainersVersion}"
+
+
+	testImplementation "org.testcontainers:testcontainers:${testcontainersVersion}"
+	compileOnly 'org.projectlombok:lombok'
+	testImplementation "org.mockito:mockito-inline:${mockitoVersion}"
+
+	testCompileOnly 'org.projectlombok:lombok'
+	testAnnotationProcessor 'org.projectlombok:lombok'
+}
+
+tasks.named('test') {
+	useJUnitPlatform()
+}
